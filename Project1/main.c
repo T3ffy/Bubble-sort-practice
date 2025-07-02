@@ -13,13 +13,17 @@ FILE* file;
 
 
 void bubbleSort(int arr[], int size) {
+    int k = 0;
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
                 int temp = arr[j];
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
+                k++;
             }
+            if (k == 0)
+                break;
         }
     }
 }
@@ -48,7 +52,7 @@ void readArrayFromFile() {
     printf("Введите имя файла для чтения массива из файла: ");
     scanf("%s", n_file);
     if (sizeof(n_file) > 49) {
-        printf("Имя файла превышает максимально допустимую длину (49)!");
+        printf("Имя файла превышает доступное значение (49)!");
         return;
     }
     if ((file = fopen(n_file, "r+")) == 0)
@@ -90,7 +94,7 @@ void main() {
         printf("Введите выбор: ");
         scanf("%d", &choice);
         switch (choice) {
-        case 1:
+        case 1: //Просмотр
             system("cls");
             printf("Массив:\n ");
             for (int i = 0; i < size; i++) {
@@ -98,20 +102,20 @@ void main() {
             }
             printf("\n");
             break;
-        case 2:
+        case 2: // Сортировка
             system("cls");
             start = clock();
             bubbleSort(arr, size);
             end = clock();
             printf("Массив отсортирован!\n");
-            time_spent += (double)(end - start) / CLOCKS_PER_SEC;
+            time_spent = (double)(end - start) / CLOCKS_PER_SEC;
             printf("\n");
             break;
-        case 3:
+        case 3: // Запись в файл
             system("cls");
             writeArrayToFile(arr, size);
             break;
-        case 4:
+        case 4: // Запись в файл
             system("cls");
             if (arr != NULL) 
             {
@@ -119,7 +123,7 @@ void main() {
             }
             readArrayFromFile();
             break;
-        case 5:
+        case 5: // Время
             system("cls");
             if (time_spent == 0) {
                 printf("Сначала отсортируйте массив!\n");
@@ -127,7 +131,7 @@ void main() {
             }
              printf("Общее время сортировки: %f\n", time_spent);
              break;
-        case 6:
+        case 6: //Ввод данных 
             system("cls");
             free(arr);
             printf("Введите размер массива: ");
@@ -141,9 +145,10 @@ void main() {
                 arr[i] = rand();
             }
             break;
-        case 7:
+        case 7: // Выход
              system("cls");
              printf("До свидания!\n");
+             free(arr);
              break;
         default:
              system("cls");
